@@ -1,0 +1,182 @@
+:root{
+  --error:#FF0000;
+  --bg:transparent;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #ccc;
+  color: black;
+}
+
+.pages{
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0rem auto;
+}
+
+.navDetails{
+  background: black;
+  display: flex;
+  padding: 10px 20px!important;
+  justify-content: space-between!important;
+  align-items: center!important;
+  color: orangered;
+}
+
+.navDetails>button{
+  padding: 7px 15px;
+  background: transparent;
+  border: 3px solid orangered;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.navDetails>button:hover{
+  border: 3px solid white;
+  color: orangered;
+  font-weight: bold;
+}
+
+.home{
+  display: grid;
+  gap: 4rem;
+  grid-template-columns: 1fr 3fr;
+}
+
+.contactForm{
+  position: sticky;
+  top: 4rem;
+  height: fit-content;
+  height: fit-content;
+  box-shadow: 3px 3px 5px 6px #ccc;
+  padding: 25px;
+  border-radius: 6px;
+  text-align: center;
+  background: white;
+  margin-top: 2rem;
+}
+
+.labels>label{
+  display: block;
+  text-align: left;
+  font-weight: bold;
+}
+
+input{
+  display: block;
+  padding: 10px;
+  margin: 3px 0px 10px 0px!important;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.formBtn{
+  padding: 10px;
+  margin: 10px;
+  outline: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  background: orangered;
+}
+
+.formBtn:hover{
+  color: orangered;
+  border: 3px solid black;
+  background: white;
+}
+
+.contacts{
+  margin-top: 1rem;
+}
+
+.contactsHeader{
+  justify-content: space-between;
+  display: flex;
+}
+
+.searchContainer{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contactDetails{
+  box-shadow: 3px 3px 5px 6px #ccc;
+  padding: 10px 20px;
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 0px;
+}
+
+.details{
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactImage{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.dltBtn{
+  cursor: pointer;
+  background: #d10606;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  outline: none!important;
+  border: none!important;
+  margin-right: 1rem;
+}
+
+.editBtn{
+  color: white;
+  background: rgb(20, 154, 243);
+  padding: 8px 15px;
+  outline: none!important;
+  border: none!important;
+  border-radius: 6px;
+}
+
+.updtBtn{
+  margin: 1rem;
+}
+
+div{
+  display: block;
+}
+
+.error{
+  padding: 10px;
+  background: white;
+  border: 1px solid var(--error);
+  color: black;
+  border-radius: 4px;
+  margin: 20px 0;
+  outline: none;
+}
+
+/* Mantine modal theme modification */
+.mantine-kea9ny{
+  background-color: rgb(0 0 0 / 17%)!important;
+}
+
+/* Update Modal form css */
+.updateForm{
+  text-align: center;
+}
