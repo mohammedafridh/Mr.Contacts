@@ -52,18 +52,27 @@ export const getAllContacts = async(req,res)=>{
 }
 
 //update a contact
-export const updateContact = async(req,res)=>{
-    const id = req.params.id
-    const {name,contactNumber,address} = req.body
+// export const updateContact = async(req,res)=>{
+//     const id = req.params.id
+//     const {name,contactNumber,address} = req.body
 
-    try{
-        const contact = await ContactModel.findById(id)
-        const updateContact = await contact.updateOne({$set:req.body})
-        res.status(200).json('updated successfully')
-    }catch(error){
-        res.status(500).json({error:error.message})
+//     try{
+//         const contact = await ContactModel.findById(id)
+//         const updateContact = await contact.updateOne({$set:req.body})
+//         res.status(200).json('updated successfully')
+//     }catch(error){
+//         res.status(500).json({error:error.message})
+//     }
+// }
+
+export const updateContact = async (req, res) => {
+    try {
+      const contact = await ContactModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      res.status(200).json(contact)
+    } catch (error) {
+      res.status(500).json({ error:error.message})
     }
-}
+  }
 
 //delete a contact
 export const deleteContact = async(req,res)=>{
