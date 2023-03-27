@@ -1,6 +1,7 @@
 import ContactModel from "../Models/ContactModel.js";
 
 //create a contact
+
 export const createContact = async(req,res)=>{
 
     const {name,contactNumber} = req.body
@@ -24,6 +25,30 @@ export const createContact = async(req,res)=>{
     }
 }
 
+// export const createContact = async(req,res)=>{
+
+//     const {name,contactNumber} = req.body
+
+//     let emptyFields = []
+
+//     if(!name){
+//         emptyFields.push('name')
+//     }if(!contactNumber){
+//         emptyFields.push('contactNumber')
+//     }
+//     if(emptyFields.length>0){
+//         return res.status(400).json({error: '*Please fill all the fields', emptyFields})
+//     }
+
+//     try{
+//             const image = req.file.path
+//             const user = await ContactModel.create({...req.body, image})
+//             res.status(200).json(user)
+//     }catch(error){
+//         res.status(500).json({error:error.message})
+//     }
+// }
+
 //get a contact
 export const getContact = async(req,res)=>{
     const id = req.params.id
@@ -41,15 +66,31 @@ export const getContact = async(req,res)=>{
 }
 
 //get all contacts
-export const getAllContacts = async(req,res)=>{
-    const contacts = await ContactModel.find().collation({locale:'en', strength:2}).sort({name:1})
+
+// export const getAllContacts = async(req,res)=>{
+//     const contacts = await ContactModel.find().collation({locale:'en', strength:2}).sort({name:1})
     
-    try{
-        res.status(200).json(contacts)
-    }catch(error){
-        res.status(500).json({error:error.message})
+//     try{
+//         res.status(200).json(contacts)
+//     }catch(error){
+//         res.status(500).json({error:error.message})
+//     }
+// }
+
+export const getAllContacts = async (req, res) => {
+    try {
+      // Extract the search term from the query string
+      const searchTerm = req.query.search || ''
+  
+      // Find contacts that match the search term
+      const contacts = await ContactModel.find({ name: { $regex: searchTerm, $options: 'i' } }).sort({name:1});
+  
+      // Send the contacts as JSON response
+      res.status(200).json(contacts)
+    } catch (error) {
+      res.status(500).json({error:error.message})
     }
-}
+  }
 
 //update a contact
 // export const updateContact = async(req,res)=>{

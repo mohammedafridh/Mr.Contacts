@@ -21,7 +21,7 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
         const response = await fetch(`/contact/${contact._id}`,{     
             method:'PUT',
             body:JSON.stringify(contacts),
-            header:{'Content-Type':'application/json'}
+            headers:{'Content-Type':'application/json'}
         })
 
         const json = await response.json()
@@ -29,6 +29,7 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
         if(response.ok){
             dispatch({type:'UpdateContact', payload:json})
             setModalOpened(false)
+
         }
     }
 

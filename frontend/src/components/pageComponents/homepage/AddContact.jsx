@@ -5,6 +5,7 @@ const AddContact = () => {
 
     const[name,setName] = useState('')
     const[contactNumber,setContactNumber] = useState('')
+    // const[image,setImage] = useState(null)
     const[error,setError] = useState(null)
     const[emptyFields,setEmptyFiels] = useState([])
     const{dispatch} = useContactContext()
@@ -33,6 +34,7 @@ const AddContact = () => {
         }if(response.ok){
             dispatch({type:'CreateContact', payload:json})
             setError(null)
+            // setImage(null)
             setEmptyFiels([])
             setName('')
             setContactNumber('')
@@ -70,6 +72,7 @@ const AddContact = () => {
             <label>Image</label>
             <input 
                 type = 'file' 
+                onChange={(e)=>setImage(e.target.files[0])}
             />
         </div> */}
 

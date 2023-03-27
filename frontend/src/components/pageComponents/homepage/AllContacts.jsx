@@ -12,6 +12,8 @@ const AllContacts = () => {
   const [modalOpened, setModalOpened] = useState(false)
   const [selectedContact, setSelectedContact] = useState({})
 
+  //display all contacts
+
   useEffect(() => {
     const fetchContacts = async () => {
       const response = await fetch("/contact/", {
@@ -47,33 +49,20 @@ const AllContacts = () => {
     setSelectedContact(contact)
   }
 
-  //search a contact
+  //implementing search
+  const handleSearch = (e)=>{
+    setSearch(e.target.value)
+    searchContacts(e.target.value)
+  }
 
-  // const handleSearch = async(e)=>{
-  //   const result = await contacts.filter(contact=>contact.name.toLowerCase().includes(e.toLowerCase()))
-  //   setSearch(result)
-  // }
-
-  //search try 2
-
-  // const handleSearch = (e)=>{
-  //   setSearch(e.target.value)
-  //   // console.log(search)
-  // }
-  //   const fetchData = async () => {
-  //     console.log(search)
-  //       const response = await fetch(`/contact/search/${search}`);
-  //       const json = await response.json()
-
-  //       if(response.ok){
-  //         dispatch({ type: 'SetContacts', payload: json })
-  //       }
-  //   };
-  //   fetchData();
-
-  //   useEffect(()=>{
-  //     fetchData()
-  //   },[])
+  const searchContacts = async (searchTerm) => {
+    const response = await fetch(`/contact?search=${searchTerm}`, {})
+    const json = await response.json()
+  
+    if (response.ok) {
+      dispatch({ type: 'SetContacts', payload: json })
+    }
+  }
 
   return (
     <div className="contacts">
@@ -85,8 +74,8 @@ const AllContacts = () => {
           <input
             type='text'
             placeholder='Contact name'
-          // value = {search}
-          // onChange = {handleSearch} 
+            value={search}
+            onChange={handleSearch}
           />
         </div>
       </div>
@@ -110,7 +99,7 @@ const AllContacts = () => {
             <UpdateContactModel
               modalOpened={modalOpened}
               setModalOpened={setModalOpened}
-              contact={selectedContact} 
+              contact={selectedContact}
             />
           </div>
 

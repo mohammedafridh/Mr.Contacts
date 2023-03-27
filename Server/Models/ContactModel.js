@@ -9,10 +9,7 @@ const ContactSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    // user_id:{
-    //     type:String,
-    //     required:true
-    // },
+    image:String,
     address:String,
 },
     {timestamps:true}
