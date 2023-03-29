@@ -5,6 +5,7 @@ import ContactModel from "../Models/ContactModel.js";
 export const createContact = async(req,res)=>{
 
     const {name,contactNumber} = req.body
+    const exists = await ContactModel.findOne({name})
 
     let emptyFields = []
 
@@ -18,8 +19,17 @@ export const createContact = async(req,res)=>{
     }
 
     try{
-            const user = await ContactModel.create(req.body)
-            res.status(200).json(user)
+        if(exists){
+            throw Error('*Contact name already exists!')
+        }
+        if(contactNumber.length!==10){
+            throw Error('*Contact number must be 10 digits!')
+        }
+        else{
+        const user = await ContactModel.create(req.body)
+        res.status(200).json(user)
+        }
+
     }catch(error){
         res.status(500).json({error:error.message})
     }
@@ -107,9 +117,17 @@ export const getAllContacts = async (req, res) => {
 // }
 
 export const updateContact = async (req, res) => {
+    const{name,contactNumber} = req.body
+    const exists = await ContactModel.findOne({name})
     try {
+        if(exists){
+            throw Error('Contact name already exists')
+        }if(contactNumber.length!==10){
+            throw Error('*Contact number must be 10 digits!')
+        }else{
       const contact = await ContactModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
       res.status(200).json(contact)
+        }
     } catch (error) {
       res.status(500).json({ error:error.message})
     }

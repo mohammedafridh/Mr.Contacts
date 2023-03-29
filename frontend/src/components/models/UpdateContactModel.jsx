@@ -4,6 +4,7 @@ import { useContactContext } from '../../context/ContactContext';
 
 function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
     const theme = useMantineTheme();
+    const [error,setError] = useState('')
     const [name, setName] = useState(contact.name)
     const [contactNumber, setContactNumber] = useState(contact.contactNumber)
     const{dispatch} = useContactContext()
@@ -28,8 +29,10 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
 
         if(response.ok){
             dispatch({type:'UpdateContact', payload:json})
+            setError('')
             setModalOpened(false)
-
+        }if(!response.ok){
+            setError(json.error)
         }
     }
 
@@ -45,6 +48,8 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
 
             <form className='updateForm' onSubmit={updateHandler}>
                 <h3><strong>Update Contact</strong></h3>
+
+                {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
 
                 <div className="labels">
                     <label>Name</label>
