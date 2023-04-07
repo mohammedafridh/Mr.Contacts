@@ -1,37 +1,40 @@
 import { Modal, useMantineTheme } from '@mantine/core';
 import { useEffect, useState } from 'react'
 import { useContactContext } from '../../context/ContactContext';
+import FileBase from 'react-file-base64'
 
 function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
     const theme = useMantineTheme();
-    const [error,setError] = useState('')
+    const [error, setError] = useState('')
     const [name, setName] = useState(contact.name)
+    const [image, setImage] = useState(contact.image)
     const [contactNumber, setContactNumber] = useState(contact.contactNumber)
-    const{dispatch} = useContactContext()
+    const { dispatch } = useContactContext()
 
-    useEffect(()=>{
+    useEffect(() => {
         setName(contact.name)
         setContactNumber(contact.contactNumber)
-    },[contact])
+        setImage(contact.image)
+    }, [contact])
 
-    const updateHandler = async(e)=>{
+    const updateHandler = async (e) => {
         e.preventDefault()
-        console.log('update',contact._id)
-        const contacts = {name,contactNumber}
+        console.log('update', contact._id)
+        const contacts = { name, contactNumber, image }
 
-        const response = await fetch(`/contact/${contact._id}`,{     
-            method:'PUT',
-            body:JSON.stringify(contacts),
-            headers:{'Content-Type':'application/json'}
+        const response = await fetch(`/contact/${contact._id}`, {
+            method: 'PUT',
+            body: JSON.stringify(contacts),
+            headers: { 'Content-Type': 'application/json' }
         })
 
         const json = await response.json()
 
-        if(response.ok){
-            dispatch({type:'UpdateContact', payload:json})
+        if (response.ok) {
+            dispatch({ type: 'UpdateContact', payload: json })
             setError('')
             setModalOpened(false)
-        }if(!response.ok){
+        } if (!response.ok) {
             setError(json.error)
         }
     }
@@ -69,7 +72,22 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
                     />
                 </div>
 
-                <button type = 'submit' className='editBtn updtBtn'>Update Contact</button>
+                <div className="labels">
+                    <label>Image</label>
+                    <div className="imgContainer">
+                        {image ? <img src={image} className='updateImage' /> :
+                            <img src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' className='updateImage' />}
+                        <FileBase
+                            type="file"
+                            multiple={false}
+                            onDone={({ base64 }) =>
+                                setImage(base64)
+                            }
+                        />
+                    </div>
+                </div>
+
+                <button type='submit' className='editBtn updtBtn'>Update Contact</button>
             </form>
 
 

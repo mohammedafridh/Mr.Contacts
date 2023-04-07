@@ -83,7 +83,10 @@ const AllContacts = () => {
       {contacts && contacts.map((contact) => (
         <div className="contactDetails" key={contact._id}>
           <div className="details">
-            <img src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' className='contactImage' />
+            {contact.image? 
+            <img src = {contact.image} className='contactImage'/>:
+              <img src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' className='contactImage' />
+            }
 
             <div>
               <h3 style={{ fontWeight: 'bold' }}>{contact.name}</h3>

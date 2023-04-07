@@ -8,7 +8,7 @@ import multer from "multer";
 //express app
 const app = express()
 
-app.use(express.json())
+app.use(express.json({limit:'10mb'}))
 
 dotenv.config()
 

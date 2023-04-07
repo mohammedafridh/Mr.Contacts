@@ -80,8 +80,8 @@ input{
 .formBtn{
   padding: 10px;
   margin: 10px;
-  outline: none;
-  border: none;
+  outline: none!important;
+  border: none!important;
   color: white;
   font-weight: bold;
   border-radius: 5px;
@@ -91,7 +91,7 @@ input{
 
 .formBtn:hover{
   color: orangered;
-  border: 3px solid black;
+  border: 3px solid black!important;
   background: white;
 }
 
@@ -179,4 +179,20 @@ div{
 /* Update Modal form css */
 .updateForm{
   text-align: center;
+}
+
+.imgContainer{
+  display: flex;
+  gap: 15px;
+}
+
+.updateImage{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.loading{
+  width: 30px;
+  height: 30px;
 }

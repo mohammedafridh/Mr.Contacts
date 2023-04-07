@@ -118,11 +118,16 @@ export const getAllContacts = async (req, res) => {
 
 export const updateContact = async (req, res) => {
     const{name,contactNumber} = req.body
-    const exists = await ContactModel.findOne({name})
+    let exists
+    const contact = await ContactModel.findById(req.params.id)
+
     try {
-        if(exists){
-            throw Error('Contact name already exists')
-        }if(contactNumber.length!==10){
+    if(name!==contact.name){
+        exists = await ContactModel.findOne({name})
+    }if(exists){
+        throw Error('*Contact name already exists!')
+    }
+    if(contactNumber.length!==10){
             throw Error('*Contact number must be 10 digits!')
         }else{
       const contact = await ContactModel.findByIdAndUpdate(req.params.id, req.body, { new: true })

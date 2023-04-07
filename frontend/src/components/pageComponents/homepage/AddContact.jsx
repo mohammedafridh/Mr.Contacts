@@ -1,50 +1,59 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useContactContext } from '../../../context/ContactContext'
+import FileBase from 'react-file-base64'
+import loadingGif from '../../../assets/loading-gif.gif'
 
 const AddContact = () => {
 
     const [name, setName] = useState('')
     const [contactNumber, setContactNumber] = useState('')
-    // const[image,setImage] = useState(null)
+    const [image, setImage] = useState(null)
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
     const { dispatch } = useContactContext()
+    const [profileKey,setProfileKey] = useState(Date.now())
+    const[loading,setLoading] = useState(false)
 
     const submitHandler = async (e) => {
         e.preventDefault()
-
-        const contact = { name, contactNumber }
+        setLoading(true)
+        const contact = {name,contactNumber,image}
 
         // if (contactNumber.length !== 10) {
         //     setError('Contact Number must be 10 digits')
         // } else {
-            const response = await fetch('/contact/create', {
-                method: 'POST',
-                body: JSON.stringify(contact),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            const json = await response.json()
-
-            if (!response.ok) {
-                if (json.error === '*Contact name already exists!') {
-                    setError(json.error)
-                } else if (json.error === '*Contact number must be 10 digits!') {
-                    setError(json.error)
-                } else {
-                    setError(json.error)
-                    setEmptyFields(json.emptyFields)
-                }
-            } if (response.ok) {
-                dispatch({ type: 'CreateContact', payload: json })
-                setError(null)
-                // setImage(null)
-                setEmptyFields([])
-                setName('')
-                setContactNumber('')
+        const response = await fetch('/contact/create', {
+            method: 'POST',
+            body: JSON.stringify(contact),
+            headers: {
+                'Content-Type': 'application/json'
             }
+        })
+
+        const json = await response.json()
+
+        if (!response.ok) {
+            if (json.error === '*Contact name already exists!') {
+                setError(json.error)
+                setLoading(false)
+            } else if (json.error === '*Contact number must be 10 digits!') {
+                setError(json.error)
+                setLoading(false)
+            } else {
+                setError(json.error)
+                setEmptyFields(json.emptyFields)
+                setLoading(false)
+            }
+        } if (response.ok) {
+            dispatch({ type: 'CreateContact', payload: json })
+            setError(null)
+            setProfileKey(Date.now())
+            setImage(null)
+            setEmptyFields([])
+            setName('')
+            setContactNumber('')
+            setLoading(false)
+        }
         //}
     }
 
@@ -74,15 +83,23 @@ const AddContact = () => {
                 />
             </div>
 
-            {/* <div className="labels">
-            <label>Image</label>
-            <input 
-                type = 'file' 
-                onChange={(e)=>setImage(e.target.files[0])}
-            />
-        </div> */}
+            <div className="labels">
+                <label>Contact Image</label>
 
+                <FileBase
+                    type="file"
+                    multiple={false}
+                    onDone={({ base64 }) =>
+                        setImage(base64)
+                    }
+                    key = {profileKey}
+                />
+            </div>
+
+            {loading?
+            <button type = 'submit'><img src = {loadingGif} className = 'loading'></img></button>:
             <button type='submit' className='formBtn'>Add Contact</button>
+            }
         </form>
     )
 }
