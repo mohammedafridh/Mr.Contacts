@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { useContactContext } from '../../../context/ContactContext'
 import FileBase from 'react-file-base64'
 import loadingGif from '../../../assets/loading-gif.gif'
+import { useAuthContext } from '../../../context/UserContext'
 
 const AddContact = () => {
 
@@ -13,9 +14,16 @@ const AddContact = () => {
     const { dispatch } = useContactContext()
     const [profileKey,setProfileKey] = useState(Date.now())
     const[loading,setLoading] = useState(false)
+    const {user} = useAuthContext()
 
     const submitHandler = async (e) => {
         e.preventDefault()
+
+        if(!user){
+            setError('You must be logged in!')
+            return
+        }
+
         setLoading(true)
         const contact = {name,contactNumber,image}
 
@@ -26,7 +34,8 @@ const AddContact = () => {
             method: 'POST',
             body: JSON.stringify(contact),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization':`Bearer ${user.token}`
             }
         })
 

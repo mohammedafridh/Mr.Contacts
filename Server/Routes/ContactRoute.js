@@ -4,7 +4,8 @@ import requireAuth from '../middlewear/requireAuth.js'
 
 const router = express.Router()
 
-// router.use(requireAuth)
+// require auth for all contact routes
+router.use(requireAuth)
 
 router.post('/create', createContact)
 router.get('/:id', getContact)

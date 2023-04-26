@@ -5,18 +5,23 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import { useContactContext } from '../../../context/ContactContext';
 import UpdateContactModel from '../../models/UpdateContactModel';
+import { useAuthContext } from '../../../context/UserContext';
 
 const AllContacts = () => {
   const { contacts, dispatch } = useContactContext()
   const [search, setSearch] = useState('')
   const [modalOpened, setModalOpened] = useState(false)
   const [selectedContact, setSelectedContact] = useState({})
+  const {user} = useAuthContext()
 
   //display all contacts
 
   useEffect(() => {
     const fetchContacts = async () => {
       const response = await fetch("/contact/", {
+        headers:{
+          'Authorization':`Bearer ${user.token}`
+        }
       })
       const json = await response.json()
 
@@ -26,15 +31,24 @@ const AllContacts = () => {
       }
     }
 
-    fetchContacts()
+    if(user){
+      fetchContacts()
+    }
 
   }, [])
 
   //delete workout
   const dltHandler = async (id) => {
 
+    if(!user){
+      return
+    }
+
     const response = await fetch(`/contact/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers:{
+        'Authorization':`Bearer ${user.token}`
+      }
     })
 
     const json = await response.json()
@@ -56,7 +70,11 @@ const AllContacts = () => {
   }
 
   const searchContacts = async (searchTerm) => {
-    const response = await fetch(`/contact?search=${searchTerm}`, {})
+    const response = await fetch(`/contact?search=${searchTerm}`, {
+      headers:{
+        'Authorization':`Bearer ${user.token}`
+      }
+    })
     const json = await response.json()
 
     if (response.ok) {

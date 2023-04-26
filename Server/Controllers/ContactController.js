@@ -4,7 +4,7 @@ import ContactModel from "../Models/ContactModel.js";
 
 export const createContact = async(req,res)=>{
 
-    const {name,contactNumber} = req.body
+    const {name,contactNumber,image} = req.body
     const exists = await ContactModel.findOne({name})
 
     let emptyFields = []
@@ -26,9 +26,9 @@ export const createContact = async(req,res)=>{
             throw Error('*Contact number must be 10 digits!')
         }
         else{
-        // const user_id = req.user._id
-        // const contact = await ContactModel.create(name,contactNumber)
-        const contact = await ContactModel.create(req.body)
+        const user_id = req.user._id
+        const contact = await ContactModel.create({name,contactNumber,image,user_id})
+        //const contact = await ContactModel.create(req.body)
         res.status(200).json(contact)
         }
 
@@ -36,30 +36,6 @@ export const createContact = async(req,res)=>{
         res.status(500).json({error:error.message})
     }
 }
-
-// export const createContact = async(req,res)=>{
-
-//     const {name,contactNumber} = req.body
-
-//     let emptyFields = []
-
-//     if(!name){
-//         emptyFields.push('name')
-//     }if(!contactNumber){
-//         emptyFields.push('contactNumber')
-//     }
-//     if(emptyFields.length>0){
-//         return res.status(400).json({error: '*Please fill all the fields', emptyFields})
-//     }
-
-//     try{
-//             const image = req.file.path
-//             const user = await ContactModel.create({...req.body, image})
-//             res.status(200).json(user)
-//     }catch(error){
-//         res.status(500).json({error:error.message})
-//     }
-// }
 
 //get a contact
 export const getContact = async(req,res)=>{
@@ -93,9 +69,12 @@ export const getAllContacts = async (req, res) => {
     try {
       // Extract the search term from the query string
       const searchTerm = req.query.search || ''
+      const user_id = req.user._id
   
       // Find contacts that match the search term
-      const contacts = await ContactModel.find({ name: { $regex: searchTerm, $options: 'i' } }).sort({name:1});
+      const contacts = await ContactModel.find({ name: { $regex: searchTerm, $options: 'i' },
+        user_id:user_id
+    }).sort({name:1});
   
       // Send the contacts as JSON response
       res.status(200).json(contacts)
