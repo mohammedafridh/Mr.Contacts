@@ -59,7 +59,7 @@ const AddContact = () => {
 
     return (
         <form className="contactForm" onSubmit={submitHandler}>
-            <h2>Add Contact</h2>
+            <h2 className='addContactTitle'>Add Contact</h2>
 
             {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
 

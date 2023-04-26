@@ -14,7 +14,6 @@ const requireAuth = async(req,res,next)=>{
     try{
         const {_id} = jwt.verify(token, process.env.SECRET)
         req.user = await UserModel.findOne({_id}).select('_id')
-        // req.user = await UserModel.findOne({_id}).select('_id')
         next()
     }catch(error){
         res.status(500).json({error:'Request is not authorised.'})

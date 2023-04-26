@@ -50,7 +50,7 @@ const AllContacts = () => {
   }
 
   //implementing search
-  const handleSearch = (e)=>{
+  const handleSearch = (e) => {
     setSearch(e.target.value)
     searchContacts(e.target.value)
   }
@@ -58,7 +58,7 @@ const AllContacts = () => {
   const searchContacts = async (searchTerm) => {
     const response = await fetch(`/contact?search=${searchTerm}`, {})
     const json = await response.json()
-  
+
     if (response.ok) {
       dispatch({ type: 'SetContacts', payload: json })
     }
@@ -67,10 +67,10 @@ const AllContacts = () => {
   return (
     <div className="contacts">
       <div className='contactsHeader'>
-        <h3 style={{ fontWeight: 'bold' }}>All Contacts</h3>
+        <h3 style={{ fontWeight: 'bold', color:'orangered' }}>All Contacts</h3>
 
         <div className='searchContainer'>
-          <span>Search</span>
+          <span className='search'>Search</span>
           <input
             type='text'
             placeholder='Contact name'
@@ -80,35 +80,36 @@ const AllContacts = () => {
         </div>
       </div>
 
-      {contacts && contacts.map((contact) => (
-        <div className="contactDetails" key={contact._id}>
-          <div className="details">
-            {contact.image? 
-            <img src = {contact.image} className='contactImage'/>:
-              <img src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' className='contactImage' />
-            }
+      <div className="allContacts">
+        {contacts && contacts.map((contact) => (
+          <div className="contactDetails" key={contact._id}>
+            <div className="details">
+              {contact.image ?
+                <img src={contact.image} className='contactImage' /> :
+                <img src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' className='contactImage' />
+              }
+
+              <div>
+                <h3 style={{ fontWeight: 'bold' }}>{contact.name}</h3>
+                <p><strong>Contact Number: {contact.contactNumber}</strong></p>
+              </div>
+            </div>
 
             <div>
-              <h3 style={{ fontWeight: 'bold' }}>{contact.name}</h3>
-              <p><strong>Contact Number</strong>: {contact.contactNumber}</p>
+              <button className='material-symbols-outlined dltBtn' onClick={() => dltHandler(contact._id)}>Delete</button>
+              <button className='material-symbols-outlined editBtn'
+                onClick={() => setModal(contact)}>Edit</button>
+
+              <UpdateContactModel
+                modalOpened={modalOpened}
+                setModalOpened={setModalOpened}
+                contact={selectedContact}
+              />
             </div>
+
           </div>
-
-          <div>
-            <button className='material-symbols-outlined dltBtn' onClick={() => dltHandler(contact._id)}>Delete</button>
-            <button className='material-symbols-outlined editBtn'
-              onClick={() => setModal(contact)}>Edit</button>
-
-            <UpdateContactModel
-              modalOpened={modalOpened}
-              setModalOpened={setModalOpened}
-              contact={selectedContact}
-            />
-          </div>
-
-        </div>
-      ))}
-
+        ))}
+      </div>
     </div>
   );
 };

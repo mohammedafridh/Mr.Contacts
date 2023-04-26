@@ -35,5 +35,5 @@ mongoose.connect(process.env.DB, {
 )
 
 //connect routes
-app.use('/user', userRoute)
+app.use('/users', userRoute)
 app.use('/contact', contactRoute)

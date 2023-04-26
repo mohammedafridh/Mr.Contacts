@@ -50,11 +50,11 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
         >
 
             <form className='updateForm' onSubmit={updateHandler}>
-                <h3><strong>Update Contact</strong></h3>
+                <h3 style = {{color:'orangered'}}><strong>Update Contact</strong></h3>
 
                 {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
 
-                <div className="labels">
+                <div className="updateLabels">
                     <label>Name</label>
                     <input
                         type='text'
@@ -63,7 +63,7 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
                     />
                 </div>
 
-                <div className="labels">
+                <div className="updateLabels">
                     <label>Contact Number</label>
                     <input
                         type='number'
@@ -72,7 +72,7 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
                     />
                 </div>
 
-                <div className="labels">
+                <div className="updateLabels">
                     <label>Image</label>
                     <div className="imgContainer">
                         {image ? <img src={image} className='updateImage' /> :
