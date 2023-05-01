@@ -2,6 +2,7 @@ import { Modal, useMantineTheme } from '@mantine/core';
 import { useEffect, useState } from 'react'
 import { useContactContext } from '../../context/ContactContext';
 import FileBase from 'react-file-base64'
+import { useAuthContext } from '../../context/UserContext';
 
 function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
     const theme = useMantineTheme();
@@ -10,6 +11,7 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
     const [image, setImage] = useState(contact.image)
     const [contactNumber, setContactNumber] = useState(contact.contactNumber)
     const { dispatch } = useContactContext()
+    const {user} = useAuthContext()
 
     useEffect(() => {
         setName(contact.name)
@@ -25,7 +27,8 @@ function UpdateContactModel({ modalOpened, setModalOpened, contact }) {
         const response = await fetch(`/contact/${contact._id}`, {
             method: 'PUT',
             body: JSON.stringify(contacts),
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json',
+            'Authorization':`Bearer ${user.token}`}
         })
 
         const json = await response.json()
