@@ -6,7 +6,7 @@ import { useAuthContext } from '../../../context/UserContext'
 
 const AddContact = () => {
 
-    const [name, setName] = useState('')
+    const[name,setName] = useState('')
     const [contactNumber, setContactNumber] = useState('')
     const [image, setImage] = useState(null)
     const [error, setError] = useState(null)
@@ -76,7 +76,7 @@ const AddContact = () => {
                 <label>Name</label>
                 <input
                     type='text'
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e)=>setName(e.target.value)}
                     value={name}
                     className={emptyFields.includes('name') ? 'error' : ''}
                 />
@@ -86,7 +86,7 @@ const AddContact = () => {
                 <label>Contact Number</label>
                 <input
                     type='number'
-                    onChange={(e) => setContactNumber(e.target.value)}
+                    onChange={(e)=>setContactNumber(e.target.value)}
                     value={contactNumber}
                     className={emptyFields.includes('contactNumber') ? 'error' : ''}
                 />

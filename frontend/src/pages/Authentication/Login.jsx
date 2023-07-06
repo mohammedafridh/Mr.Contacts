@@ -45,7 +45,7 @@ const Login = () => {
             </div>
 
             {loading?
-            <button type = 'submit'><img src = {loadingGif} className = 'loading'></img></button>:
+            <button type = 'submit' className='loadingBtn formBtn'><img src = {loadingGif} className = 'loading'></img></button>:
             <button type='submit' className='formBtn'>Login</button>
             }
 

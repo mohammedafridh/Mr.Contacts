@@ -55,11 +55,11 @@ const Register = () => {
                 </div>
 
                 {isLoading ?
-                    <button type='submit'><img src={loadingGif} className='loading'></img></button> :
+                    <button type='submit' className='loadingBtn formBtn'><img src={loadingGif} className='loading'></img></button> :
                     <button type='submit' className='formBtn'>Register</button>
                 }
 
-                <p className='regTxt'>Do you Have an account? <Link to='/login'>Login</Link></p>
+                <p className='regTxt'>Do you Have an account? <Link to='/'>Login</Link></p>
             </form>
         </div>
     )

@@ -91,7 +91,6 @@ a{
   position: sticky;
   top: 4rem;
   height: fit-content;
-  height: fit-content;
   /* box-shadow: 3px 3px 5px 6px #3b3b3b; */
   border: 1px solid orangered;
   padding: 25px;
@@ -266,8 +265,13 @@ div{
 }
 
 .loading{
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
+}
+
+.loadingBtn{
+  background: transparent!important;
+  color: black;
 }
 
 /* Login / Register css */

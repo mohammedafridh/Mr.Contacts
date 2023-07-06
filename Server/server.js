@@ -13,17 +13,17 @@ app.use(express.json({limit:'10mb'}))
 dotenv.config()
 
 //middleware for image
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './uploads/');
-    },
-    filename: (req, file, cb) => {
-      const ext = file.mimetype.split('/')[1];
-      cb(null, `image-${Date.now()}.${ext}`);
-    }
-  });
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, './uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//       const ext = file.mimetype.split('/')[1];
+//       cb(null, `image-${Date.now()}.${ext}`);
+//     }
+//   });
   
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 
 //connect db
 
