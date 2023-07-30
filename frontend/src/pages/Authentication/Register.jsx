@@ -32,6 +32,7 @@ const Register = () => {
                     <input
                         type='text'
                         onChange={(e) => setName(e.target.value)}
+                        placeholder='Name'
                     // className={emptyFields.includes('name') ? 'error' : ''}
                     />
                 </div>
@@ -41,6 +42,7 @@ const Register = () => {
                     <input
                         type='text'
                         onChange={(e) => setUsername(e.target.value)}
+                        placeholder='Username'
                     // className={emptyFields.includes('name') ? 'error' : ''}
                     />
                 </div>
@@ -50,6 +52,7 @@ const Register = () => {
                     <input
                         type='password'
                         onChange={(e) => setPassword(e.target.value)}
+                        placeholder='Password'
                     // className={emptyFields.includes('contactNumber') ? 'error' : ''}
                     />
                 </div>

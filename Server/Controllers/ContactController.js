@@ -5,7 +5,6 @@ import ContactModel from "../Models/ContactModel.js";
 export const createContact = async(req,res)=>{
 
     const {name,contactNumber,image} = req.body
-    const exists = await ContactModel.findOne({name})
 
     let emptyFields = []
 
@@ -19,7 +18,8 @@ export const createContact = async(req,res)=>{
     }
 
     try{
-        if(exists){
+        const existingContact = await ContactModel.findOne({name, user_id:req.user._id})
+        if(existingContact){
             throw Error('*Contact name already exists!')
         }
         if(contactNumber.length!==10){
@@ -38,6 +38,7 @@ export const createContact = async(req,res)=>{
 }
 
 //get a contact
+
 export const getContact = async(req,res)=>{
     const id = req.params.id
     const contact = await ContactModel.findById(id)
@@ -55,58 +56,38 @@ export const getContact = async(req,res)=>{
 
 //get all contacts
 
-// export const getAllContacts = async(req,res)=>{
-//     const contacts = await ContactModel.find().collation({locale:'en', strength:2}).sort({name:1})
-    
-//     try{
-//         res.status(200).json(contacts)
-//     }catch(error){
-//         res.status(500).json({error:error.message})
-//     }
-// }
-
 export const getAllContacts = async (req, res) => {
     try {
-      // Extract the search term from the query string
       const searchTerm = req.query.search || ''
       const user_id = req.user._id
   
-      // Find contacts that match the search term
       const contacts = await ContactModel.find({ name: { $regex: searchTerm, $options: 'i' },
         user_id:user_id
     }).sort({name:1});
   
-      // Send the contacts as JSON response
       res.status(200).json(contacts)
     } catch (error) {
       res.status(500).json({error:error.message})
     }
   }
 
-//update a contact
-// export const updateContact = async(req,res)=>{
-//     const id = req.params.id
-//     const {name,contactNumber,address} = req.body
-
-//     try{
-//         const contact = await ContactModel.findById(id)
-//         const updateContact = await contact.updateOne({$set:req.body})
-//         res.status(200).json('updated successfully')
-//     }catch(error){
-//         res.status(500).json({error:error.message})
-//     }
-// }
+// update a contact
 
 export const updateContact = async (req, res) => {
     const{name,contactNumber} = req.body
-    let exists
     const contact = await ContactModel.findById(req.params.id)
+    let exists
 
     try {
+    // if(name!==contact.name){
+    //     exists = await ContactModel.findOne({name})
+    // }if(exists){
+    //     throw Error('*Contact name already exists!')
+    // }
     if(name!==contact.name){
         exists = await ContactModel.findOne({name})
     }if(exists){
-        throw Error('*Contact name already exists!')
+        throw Error('Contact Name Exists!')
     }
     if(contactNumber.length!==10){
             throw Error('*Contact number must be 10 digits!')
@@ -120,26 +101,23 @@ export const updateContact = async (req, res) => {
   }
 
 //delete a contact
-export const deleteContact = async(req,res)=>{
-    const {id} = req.params
 
+export const deleteContact = async(req,res)=>{
     try{
-        const contact = await ContactModel.findOneAndDelete({_id: id})
-        res.status(200).json(contact)
+        await ContactModel.findByIdAndDelete(req.params.id)
+        res.status(200).json('Deleted Successfully')
     }catch(error){
-        res.status(500).json(error)
+        res.status(500).json({error:error.message})
     }
 }
 
-//search contact
-
-// export const searchContact = async(req,res)=>{
-//     const {query} = req.query
+// export const deleteContact = async(req,res)=>{
+//     const {id} = req.params
 
 //     try{
-//         const data = await ContactModel.find({name:{ $regex: query, $options: 'i' }})
-//         res.status(200).json(data)
+//         const contact = await ContactModel.findOneAndDelete({_id: id})
+//         res.status(200).json(contact)
 //     }catch(error){
-//         res.status(500).json({error:error.message})
+//         res.status(500).json(error)
 //     }
 // }
